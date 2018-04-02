@@ -1,0 +1,22 @@
+<html>
+<head><title>Test js</title>
+    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/tmp.js"></script>
+</head><body>
+<div id="mess"></div><br/>
+
+From: testengma1@gmail.com<br/>
+To: testengma2@gmail.com<br/>
+<input type="button" value="Send random string" onclick="send_rand_mess();"/>
+<hr/>
+Create new database name: <input type="text" id="txt_new_db"/><br/>
+<input type="button" value="Create new DB" onclick="create_new_db();"/>
+<br/>--- PUSH NOTIFICATION ---<br/>
+Android token: <input type="text" id="txt_token" value="edWcTrQzTvI:APA91bHALuZFknK1SXbqhbmeba_VC37Ph3Y2DRIAO7i8ZH6vbh652lbb3OFylel993Y2Wn7cl4-iSWrx1dp4pzNhYztT8aDDZCQxWog6wHfggaGgA8MnefEmw9dTy6ELDpD7ksvflDPC"/><br/>
+Content: <input type="text" id="txt_content" value="<%=data %>"/><br/>
+<input type="button" value="Send Push message" onclick="send_push_message();"/>
+
+</body>
+</html>

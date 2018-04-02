@@ -1,0 +1,18 @@
+/upload/
+/node_modules/
+/npm-debug.log
+/alodoctor_data/
+/D:/
+/config/
+
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
