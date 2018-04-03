@@ -46,7 +46,7 @@ client.once( "connect", function () {
 			zlib.unzip(buffer, (err, buffer) => {
 				if (!err) {
 					// console.log(buffer.toString());
-					client.emit('hose_quote', buffer.toString());
+					// client.emit('hose_quote', buffer.toString());
 				} else {
 					// console.log(err);
 					// handle error
