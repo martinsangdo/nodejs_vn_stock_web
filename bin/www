@@ -45,8 +45,8 @@ client.once( "connect", function () {
 			var buffer = Buffer.from(data.msg, 'base64');
 			zlib.unzip(buffer, (err, buffer) => {
 				if (!err) {
-					// console.log(buffer.toString());
-					
+					console.log(buffer.toString());
+
 				} else {
 					// console.log(err);
 					// handle error
