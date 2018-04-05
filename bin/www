@@ -22,8 +22,8 @@ console.log('Nodejs is running at port: ' + port);
  * Create HTTP server.
  */
 
-var server = require('../app').server;
-
+// var server = require('../app').server;		//this one will re-connect by client many times
+var server = http.createServer(app);		//can use for websocket
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -32,20 +32,33 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 //========== SOCKET CONFIGURATION
+var options = {
+		pingTimeout: 3000,
+		pingInterval: 3000,
+		transports: ['websocket'],
+		allowUpgrades: false,
+		upgrade: false,
+		cookie: false
+};
+// global.io = require('socket.io')(server, options);
+global.io = require('socket.io').listen(server);
+// global.io.set('origins', 'engma.com.me');
+require('./socketHandler.js')(global.io);		//listen connection from/to socket io
 /**
  * Socket.io event handling
  */
+ /*
 global.client_io = require('socket.io-client');
 var client = global.client_io.connect("http://123.30.182.116:8080");
 client.once( "connect", function () {
 		console.log( 'Client: Connected to server ');
 		client.emit('stc', 'HOSE');   //register to get data
 		client.on('HOSE_QUOTE', function(data){
-			// console.log(data.msg);
+			console.log(data.msg);
 			var buffer = Buffer.from(data.msg, 'base64');
 			zlib.unzip(buffer, (err, buffer) => {
 				if (!err) {
-					// console.log(buffer.toString());
+					console.log(buffer.toString());
 					// client.emit('hose_quote', buffer.toString());
 				} else {
 					// console.log(err);
@@ -55,7 +68,7 @@ client.once( "connect", function () {
 			// var comp
 		});
 } );
-
+*/
 //
 function normalizePort(val) {
 	var port = parseInt(val, 10);

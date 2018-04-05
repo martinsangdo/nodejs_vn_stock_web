@@ -24,10 +24,12 @@ function xlog(title, data){
 		}
 }
 
-var socket = io.connect('http://123.30.182.116:8080', socket_options);
+// var socket = io.connect('http://123.30.182.116:8080', socket_options);
+var socket = io.connect('http://localhost:3003', socket_options);
+
 socket.on("connect",function(){
 		xlog('socket connected');
-		socket.emit("stc", 'HOSE');
+		// socket.emit("stc", 'HOSE');
 });
 socket.on("HOSE_QUOTE",function(data){
 		// xlog('HOSE_QUOTE', data);
@@ -59,4 +61,8 @@ socket.on("HOSE_PT_MATCH",function(data){
 });
 socket.on("disconnect",function(){
 		xlog('socket disconnected');
+});
+
+socket.on("test",function(data){
+	console.log('socket test', data);
 });
