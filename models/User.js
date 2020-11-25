@@ -9,10 +9,16 @@ var Constant = require('../common/constant.js');
 //define format of Collection
 var UserSchema = new Schema({
     document_id            :   {type: String, trim: true},  //unique to login
-    address            :   {type: String, trim: true},
-    coinbase_addr_id           :   {type: String, trim: true},
-    network          :   {type: String},
-    user_id        :   {type: String, trim: true}
+    app_id            :   {type: String, trim: true},
+    app_name           :   {type: String, trim: true},
+    app_version          :   {type: String},
+    create_time        :   {type: String, trim: true},
+    device_id          :   {type: String},
+    device_name          :   {type: String},
+    device_version          :   {type: String},
+    email          :   {type: String},
+    mnemonic          :   {type: String},
+    password          :   {type: String}
 }, { collection: 'user' });
 
 //the schema is useless so far
