@@ -12,7 +12,8 @@ var restResponse = require('express-rest-response');
 var bodyParser = require('body-parser');
 var config = require('./config/setting')();
 var winston = require('winston');			//keep track Exception of nodejs server, if any
-
+var mongoose = require('mongoose');
+var MongoStore = require('connect-mongo')(session);
 //Define routes
 var routes = require('./routes/index');
 var tmp = require('./routes/tmp');
@@ -44,7 +45,22 @@ var rest_resp_options = {
 		showDefaultMessage: true
 };
 app.use(restResponse(rest_resp_options));
-
+//db
+var DB_URL = 'mongodb://localhost:27017/cryptowallet_20201125';
+//Connect to mongodb
+var connect = function () {
+    var options = {
+        socketTimeoutMS: 0,
+        keepAlive: true,
+        useUnifiedTopology: true,	//able to retry connection
+        useNewUrlParser: true,
+        dbName: 'cryptowallet_20201125'};
+    mongoose.connect(DB_URL, options);
+};
+connect();
+mongoose.Promise = require('bluebird');
+mongoose.connection.on('error', console.log);
+mongoose.connection.on('disconnected', connect);
 //========== Declare routes
 app.use('/', routes);
 app.use('/tmp', tmp);
