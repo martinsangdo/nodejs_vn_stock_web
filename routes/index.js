@@ -18,30 +18,64 @@ router.get('/', function(req, res, next) {
 
 /* GET home page. */
 router.get('/get_transactions', function(req, res, next) {
-    var headers = get_coinbase_header("GET" , "/v2/accounts/91735a18-d8ef-5c40-bb4f-8ce64acf8bba");
-    headers['X-CMC_PRO_API_KEY'] = '0zGLoccZQkdc8ViE';
+    const LTC = '1b9e9fde-7e97-5f8e-8454-a57fdbf0a28e';
+    const ETH = '91735a18-d8ef-5c40-bb4f-8ce64acf8bba';
+    const BTC = 'd0ca887e-21dc-5425-b37e-c5505c22cbee';
+    const BCH = '6e2970bc-190e-5c95-92aa-3ddc1eaee43c';
+    //LTC
+    var headers = get_coinbase_header("GET" , "/v2/accounts/"+LTC);
+    headers['X-CMC_PRO_API_KEY'] = '0zGLoccZQkdc8ViE';  //same as cryptowallet app
     headers['CB-ACCESS-KEY'] = '0zGLoccZQkdc8ViE';
     headers['CB-VERSION'] = '2018-06-02';
-    const options = {
-        hostname: 'https://api.coinbase.com',
-        port: 443,
-        path: '/v2/accounts/91735a18-d8ef-5c40-bb4f-8ce64acf8bba',
-        method: 'GET',
-        headers: headers
-    };
-    // console.log(options);
-
     request({
         headers: headers,
-        uri: 'https://api.coinbase.com/v2/accounts/91735a18-d8ef-5c40-bb4f-8ce64acf8bba',
+        uri: 'https://api.coinbase.com/v2/accounts/'+LTC,
         method: 'GET'
     }, function (err, response, body) {
-        //it works!
-        // console.log(body);
-        res.json(JSON.parse(body));
+        body = JSON.parse(body);
+        console.log(body.data.balance);
+    });
+    //ETH
+    headers = get_coinbase_header("GET" , "/v2/accounts/"+ETH);
+    headers['X-CMC_PRO_API_KEY'] = '0zGLoccZQkdc8ViE';  //same as cryptowallet app
+    headers['CB-ACCESS-KEY'] = '0zGLoccZQkdc8ViE';
+    headers['CB-VERSION'] = '2018-06-02';
+    request({
+        headers: headers,
+        uri: 'https://api.coinbase.com/v2/accounts/'+ETH,
+        method: 'GET'
+    }, function (err, response, body) {
+        body = JSON.parse(body);
+        console.log(body.data.balance);
+    });
+    //BTC
+    headers = get_coinbase_header("GET" , "/v2/accounts/"+BTC);
+    headers['X-CMC_PRO_API_KEY'] = '0zGLoccZQkdc8ViE';  //same as cryptowallet app
+    headers['CB-ACCESS-KEY'] = '0zGLoccZQkdc8ViE';
+    headers['CB-VERSION'] = '2018-06-02';
+    request({
+        headers: headers,
+        uri: 'https://api.coinbase.com/v2/accounts/'+BTC,
+        method: 'GET'
+    }, function (err, response, body) {
+        body = JSON.parse(body);
+        console.log(body.data.balance);
+    });
+    //BCH
+    headers = get_coinbase_header("GET" , "/v2/accounts/"+BCH);
+    headers['X-CMC_PRO_API_KEY'] = '0zGLoccZQkdc8ViE';  //same as cryptowallet app
+    headers['CB-ACCESS-KEY'] = '0zGLoccZQkdc8ViE';
+    headers['CB-VERSION'] = '2018-06-02';
+    request({
+        headers: headers,
+        uri: 'https://api.coinbase.com/v2/accounts/'+BCH,
+        method: 'GET'
+    }, function (err, response, body) {
+        body = JSON.parse(body);
+        console.log(body.data.balance);
     });
 
-
+    res.json({result: 'OK'});
 });
 
 function get_coinbase_header(method, uri){
