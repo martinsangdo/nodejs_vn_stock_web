@@ -8,32 +8,53 @@ var Constant = require('../common/constant.js');
 var Address = require('../models/Address.js');
 var ForgotPass = require('../models/ForgotPass.js');
 var User = require('../models/User.js');
+var CryptoJS = require('crypto-js');
+var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'hi' });
 });
 
 /* GET home page. */
-router.get('/crypto-db-backup', function(req, res, next) {
-  var results = [];
-  try {
-    var collection = fb_export.firestore().collection(req.query["collection_name"]);
+router.get('/get_transactions', function(req, res, next) {
+    var headers = get_coinbase_header("GET" , "/v2/accounts/91735a18-d8ef-5c40-bb4f-8ce64acf8bba");
+    headers['X-CMC_PRO_API_KEY'] = '0zGLoccZQkdc8ViE';
+    headers['CB-ACCESS-KEY'] = '0zGLoccZQkdc8ViE';
+    headers['CB-VERSION'] = '2018-06-02';
+    const options = {
+        hostname: 'https://api.coinbase.com',
+        port: 443,
+        path: '/v2/accounts/91735a18-d8ef-5c40-bb4f-8ce64acf8bba',
+        method: 'GET',
+        headers: headers
+    };
+    // console.log(options);
 
-     collection.get().then(snapshot => {
-        snapshot.forEach(doc => {
-           results.push(doc.data());
-        });
-        res.render('export_db', { json: JSON.stringify(results) });
-     }).catch(err => {
-        console.log('Error: ', JSON.stringify(err));
-        res.render('export_db', { json: JSON.stringify(err) });
-     });
-  } catch(err){
-    console.log('Error: ', err);
-    res.render('export_db', { json: JSON.stringify(err) });
-  }
+    request({
+        headers: headers,
+        uri: 'https://api.coinbase.com/v2/accounts/91735a18-d8ef-5c40-bb4f-8ce64acf8bba',
+        method: 'GET'
+    }, function (err, response, body) {
+        //it works!
+        // console.log(body);
+        res.json(JSON.parse(body));
+    });
+
+
 });
+
+function get_coinbase_header(method, uri){
+    //https://github.com/brix/crypto-js
+    var timestamp = Math.floor(Date.now() / 1000);
+    var message = timestamp + method + uri;
+    var rawHmac = CryptoJS.HmacSHA256(message, "xOzMvwhjmhVxq9UAdhCnMq29vUsf8FvC").toString();
+    var extra_headers = {
+        'CB-ACCESS-SIGN': rawHmac,
+        'CB-ACCESS-TIMESTAMP': timestamp
+    };
+    return extra_headers;
+}
 
 /* GET home page. */
 router.get('/crypto-db-backup-db', function(req, res, next) {
